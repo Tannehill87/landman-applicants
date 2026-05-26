@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landman Candidate Application &amp; Assessment</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+.page-wrap { max-width: 880px; margin: 0 auto; background: #fff; border-radius: 12px; border: 1px solid #e0ddd5; padding: 2.5rem; }
+.q-header { margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid #e0ddd5; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.q-header-text h1 { font-size: 24px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+.q-header-text p { font-size: 14px; color: #666; line-height: 1.6; }
+.phase-pill { flex-shrink: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; background: #E1F5EE; color: #0F6E56; padding: 4px 12px; border-radius: 20px; margin-top: 4px; }
+.progress-bar { height: 4px; background: #eee; border-radius: 2px; margin-bottom: 2rem; }
+.progress-fill { height: 100%; background: #1D9E75; border-radius: 2px; width: 0%; transition: width 0.3s; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 1rem; padding-bottom: 6px; border-bottom: 1px solid #e0ddd5; }
+.field { margin-bottom: 1.25rem; }
+.field label { display: block; font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+.field label span.req { color: #D85A30; margin-left: 3px; }
+.field input[type="text"], .field input[type="email"], .field input[type="tel"], .field select, .field textarea {
+  width: 100%; padding: 9px 11px; font-size: 14px; font-family: inherit;
+  background: #fff; color: #1a1a1a; border: 1px solid #ccc; border-radius: 8px;
+  outline: none; transition: border-color 0.15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: #1D9E75; box-shadow: 0 0 0 3px rgba(29,158,117,0.12); }
+.field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.field .hint { font-size: 12px; color: #999; margin-top: 4px; line-height: 1.5; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.check-group { display: flex; flex-direction: column; gap: 8px; }
+.check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.check-item { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+.check-item input[type="checkbox"], .check-item input[type="radio"] { margin-top: 3px; flex-shrink: 0; accent-color: #1D9E75; }
+.check-item span { font-size: 14px; color: #1a1a1a; line-height: 1.5; }
+.scale-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.scale-label { font-size: 12px; color: #888; white-space: nowrap; min-width: 70px; }
+.scale-label.right { text-align: right; }
+.scale-row input[type="range"] { flex: 1; accent-color: #1D9E75; }
+.scale-val { font-size: 13px; font-weight: 600; color: #1a1a1a; min-width: 18px; text-align: center; }
+.day-rate-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.rate-card { border: 1px solid #ccc; border-radius: 8px; padding: 14px; cursor: pointer; text-align: center; transition: all 0.15s; }
+.rate-card:hover { border-color: #1D9E75; background: #f0faf6; }
+.rate-card.selected { border-color: #1D9E75; background: #f0faf6; }
+.rate-card input { display: none; }
+.rate-card .rate-val { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
+.rate-card .rate-sub { font-size: 12px; color: #888; }
+.step { display: none; }
+.step.active { display: block; }
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e0ddd5; }
+.step-indicator { font-size: 13px; color: #999; }
+.nav-btn { padding: 9px 22px; font-size: 14px; font-family: inherit; border-radius: 8px; cursor: pointer; transition: all 0.15s; font-weight: 500; }
+.nav-btn.back { background: transparent; color: #666; border: 1px solid #ccc; }
+.nav-btn.back:hover { background: #f5f5f3; }
+.nav-btn.next { background: #1D9E75; color: #fff; border: none; }
+.nav-btn.next:hover { background: #0F6E56; }
+.launch-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 26px; font-size: 14px; font-weight: 600; font-family: inherit; background: #0F6E56; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
+.launch-btn:hover { background: #085041; }
+/* Assessment styles */
+.doc-pip-row { display: flex; gap: 5px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+.doc-pip { width: 30px; height: 6px; border-radius: 3px; background: #eee; transition: all 0.2s; }
+.doc-pip.done { background: #1D9E75; }
+.doc-pip.active { background: #0F6E56; width: 36px; }
+.doc-pip-label { font-size: 12px; color: #888; margin-left: 6px; }
+.doc-ref-box { background: #f8f7f4; border: 1px solid #e0ddd5; border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.doc-ref-info .doc-num { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin-bottom: 4px; }
+.doc-ref-info .doc-title { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+.doc-ref-info .doc-meta { font-size: 13px; color: #666; margin-top: 3px; }
+.view-doc-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; font-size: 13px; font-weight: 500; font-family: inherit; color: #0F6E56; background: #fff; border: 1px solid #1D9E75; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+.view-doc-btn:hover { background: #f0faf6; }
+.callout { background: #fffdf4; border: 1px solid #edd98a; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #5c4a0d; line-height: 1.7; margin-bottom: 1.25rem; }
+.callout strong { color: #3d3008; }
+.example-callout { background: #E1F5EE; border: 1px solid #a8dfc9; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #0a4d38; line-height: 1.7; margin-bottom: 1.25rem; }
+.q-block { margin-bottom: 1.5rem; }
+.q-block:last-child { margin-bottom: 0; }
+.q-num { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #1D9E75; margin-bottom: 4px; }
+.q-text { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 10px; line-height: 1.55; }
+.q-answered { background: #f0faf6; border: 1px solid #b8e8d4; border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #0a4d38; line-height: 1.6; }
+.radio-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.radio-chip input { display: none; }
+.radio-chip label { display: inline-flex; align-items: center; padding: 6px 14px; font-size: 13px; font-family: inherit; border: 1px solid #ccc; border-radius: 20px; cursor: pointer; transition: all 0.15s; color: #444; }
+.radio-chip input:checked + label { border-color: #1D9E75; background: #E1F5EE; color: #0F6E56; font-weight: 500; }
+.radio-chip label:hover { border-color: #1D9E75; background: #f0faf6; }
+/* Ownership / snapshot tables */
+.snapshot-wrap { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid #e0ddd5; }
+.snapshot-label { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+.snapshot-sub { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; }
+.tbl-scroll { overflow-x: auto; }
+table.snap { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 680px; }
+table.snap th { background: #f5f5f3; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; padding: 8px 8px; border: 1px solid #e0ddd5; white-space: nowrap; text-align: left; }
+table.snap td { border: 1px solid #e0ddd5; padding: 3px 5px; vertical-align: middle; }
+table.snap td input { width: 100%; padding: 5px 6px; font-size: 13px; font-family: inherit; border: 1px solid transparent; border-radius: 4px; background: transparent; outline: none; transition: all 0.15s; color: #1a1a1a; }
+table.snap td input:focus { border-color: #1D9E75; background: #fff; box-shadow: 0 0 0 2px rgba(29,158,117,0.1); }
+table.snap td.prefill { background: #f0faf6; }
+table.snap td.prefill input { color: #0a4d38; font-style: italic; }
+table.snap td.del-cell { width: 32px; text-align: center; }
+.del-row-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 18px; line-height: 1; padding: 2px 4px; border-radius: 3px; transition: color 0.15s; }
+.del-row-btn:hover { color: #D85A30; }
+.add-row-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 5px 12px; font-size: 12px; font-family: inherit; color: #1D9E75; background: none; border: 1px dashed #1D9E75; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+.add-row-btn:hover { background: #f0faf6; }
+/* Instructions list */
+.assume-list { padding-left: 1.4rem; }
+.assume-list li { font-size: 13px; color: #444; line-height: 1.75; margin-bottom: 2px; }
+.doc-index-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 1rem; }
+.doc-index-card { border: 1px solid #e0ddd5; border-radius: 8px; padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px; }
+.doc-index-card .d-num { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #1D9E75; color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.doc-index-card .d-info { }
+.doc-index-card .d-name { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+.doc-index-card .d-date { font-size: 12px; color: #888; margin-top: 1px; }
+/* Success */
+.success-state { text-align: center; padding: 3rem 1rem; }
+.success-icon { width: 56px; height: 56px; border-radius: 50%; background: #E1F5EE; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 24px; color: #0F6E56; font-weight: 700; }
+.success-state h2 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+.success-state p { font-size: 15px; color: #666; max-width: 460px; margin: 0 auto; line-height: 1.6; }
+@media (max-width: 600px) {
+  .page-wrap { padding: 1.5rem; }
+  .row-2, .check-grid, .day-rate-options, .doc-index-grid { grid-template-columns: 1fr; }
+  .doc-ref-box { flex-direction: column; align-items: flex-start; }
+  .q-header { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="q-header">
+    <div class="q-header-text">
+      <h1 id="main-title">Landman candidate profile</h1>
+      <p id="main-sub">Complete all sections to be considered for placement opportunities.</p>
+    </div>
+    <div class="phase-pill" id="phase-pill">Profile</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+  <!-- ===== PROFILE STEP 1 ===== -->
+  <div class="step active" id="profile-1">
+    <div class="section-label">Section 1 of 5 — Personal information</div>
+    <div class="row-2">
+      <div class="field"><label>First name <span class="req">*</span></label><input type="text" id="p-fname" placeholder="Jane"></div>
+      <div class="field"><label>Last name <span class="req">*</span></label><input type="text" id="p-lname" placeholder="Smith"></div>
+    </div>
+    <div class="row-2">
+      <div class="field"><label>Email address <span class="req">*</span></label><input type="email" id="p-email" placeholder="jane@example.com"></div>
+      <div class="field"><label>Phone number</label><input type="tel" id="p-phone" placeholder="(555) 000-0000"></div>
+    </div>
+    <div class="row-2">
+      <div class="field"><label>City</label><input type="text" id="p-city" placeholder="Houston"></div>
+      <div class="field"><label>Home state</label>
+        <select id="p-state">
+          <option value="">Select state</option>
+          <option>Texas</option><option>Oklahoma</option><option>New Mexico</option><option>Colorado</option>
+          <option>Wyoming</option><option>North Dakota</option><option>West Virginia</option>
+          <option>Pennsylvania</option><option>Louisiana</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>States you are willing to work in</label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>Texas</span></label>
+        <label class="check-item"><input type="checkbox"><span>Oklahoma</span></label>
+        <label class="check-item"><input type="checkbox"><span>New Mexico</span></label>
+        <label class="check-item"><input type="checkbox"><span>Colorado / Wyoming</span></label>
+        <label class="check-item"><input type="checkbox"><span>North Dakota / Montana</span></label>
+        <label class="check-item"><input type="checkbox"><span>West Virginia / Pennsylvania</span></label>
+        <label class="check-item"><input type="checkbox"><span>Louisiana / Mississippi</span></label>
+        <label class="check-item"><input type="checkbox"><span>Nationwide / flexible</span></label>
+      </div>
+    </div>
+    <div class="nav-row">
+      <span class="step-indicator">Step 1 of 5</span>
+      <button class="nav-btn next" onclick="goTo('profile-2')">Next →</button>
+    </div>
+  </div>
+
+  <!-- ===== PROFILE STEP 2 ===== -->
+  <div class="step" id="profile-2">
+    <div class="section-label">Section 2 of 5 — Experience &amp; specialization</div>
+    <div class="row-2">
+      <div class="field">
+        <label>Years of landman experience <span class="req">*</span></label>
+        <select>
+          <option value="">Select</option>
+          <option>Less than 1 year</option><option>1–3 years</option><option>4–7 years</option>
+          <option>8–12 years</option><option>13–20 years</option><option>20+ years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Current availability <span class="req">*</span></label>
+        <select>
+          <option value="">Select</option>
+          <option>Available now</option><option>Available within 2 weeks</option>
+          <option>Available within 30 days</option><option>Currently placed — open to future</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Primary specialization(s) <span class="req">*</span></label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>Mineral title / ownership reports</span></label>
+        <label class="check-item"><input type="checkbox"><span>Surface ownership reports</span></label>
+        <label class="check-item"><input type="checkbox"><span>Mineral / royalty deed preparation</span></label>
+        <label class="check-item"><input type="checkbox"><span>Lease acquisition / negotiation</span></label>
+        <label class="check-item"><input type="checkbox"><span>Division orders</span></label>
+        <label class="check-item"><input type="checkbox"><span>Curative / title defect resolution</span></label>
+        <label class="check-item"><input type="checkbox"><span>Affidavit of death &amp; heirship</span></label>
+        <label class="check-item"><input type="checkbox"><span>Right-of-way / easements</span></label>
+        <label class="check-item"><input type="checkbox"><span>Probate / heirship research</span></label>
+        <label class="check-item"><input type="checkbox"><span>Pipeline / facilities land</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Basin / play experience</label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>Permian Basin</span></label>
+        <label class="check-item"><input type="checkbox"><span>Eagle Ford</span></label>
+        <label class="check-item"><input type="checkbox"><span>Haynesville / East Texas</span></label>
+        <label class="check-item"><input type="checkbox"><span>Bakken / Williston</span></label>
+        <label class="check-item"><input type="checkbox"><span>DJ / Niobrara</span></label>
+        <label class="check-item"><input type="checkbox"><span>Marcellus / Utica</span></label>
+        <label class="check-item"><input type="checkbox"><span>Mid-Continent / Anadarko</span></label>
+        <label class="check-item"><input type="checkbox"><span>Other / multiple</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>AAPL designation</label>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="cert"><span>Yes — RPL (Registered Professional Landman)</span></label>
+        <label class="check-item"><input type="radio" name="cert"><span>Yes — CPL (Certified Professional Landman)</span></label>
+        <label class="check-item"><input type="radio" name="cert"><span>Yes — other designation</span></label>
+        <label class="check-item"><input type="radio" name="cert"><span>No designation</span></label>
+        <label class="check-item"><input type="radio" name="cert"><span>In progress</span></label>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('profile-1')">← Back</button>
+      <span class="step-indicator">Step 2 of 5</span>
+      <button class="nav-btn next" onclick="goTo('profile-3')">Next →</button>
+    </div>
+  </div>
+
+  <!-- ===== PROFILE STEP 3 ===== -->
+  <div class="step" id="profile-3">
+    <div class="section-label">Section 3 of 5 — Software &amp; tools</div>
+    <div class="field">
+      <label>Title plant / county records tools</label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>LandDMS</span></label>
+        <label class="check-item"><input type="checkbox"><span>TitleVest</span></label>
+        <label class="check-item"><input type="checkbox"><span>iiExperts</span></label>
+        <label class="check-item"><input type="checkbox"><span>TexasFile</span></label>
+        <label class="check-item"><input type="checkbox"><span>Courthouse Direct</span></label>
+        <label class="check-item"><input type="checkbox"><span>Lexis / Westlaw</span></label>
+        <label class="check-item"><input type="checkbox"><span>Doxpop</span></label>
+        <label class="check-item"><input type="checkbox"><span>Direct county courthouse</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Lease / contract management software</label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>OGsys</span></label>
+        <label class="check-item"><input type="checkbox"><span>Quorum Land System (QLS)</span></label>
+        <label class="check-item"><input type="checkbox"><span>Enverus / DrillingInfo</span></label>
+        <label class="check-item"><input type="checkbox"><span>PAMS</span></label>
+        <label class="check-item"><input type="checkbox"><span>Landmark ARIES</span></label>
+        <label class="check-item"><input type="checkbox"><span>Excel-based trackers</span></label>
+        <label class="check-item"><input type="checkbox"><span>Other / proprietary</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>GIS / mapping tools</label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>ArcGIS</span></label>
+        <label class="check-item"><input type="checkbox"><span>QGIS</span></label>
+        <label class="check-item"><input type="checkbox"><span>Enverus Maps</span></label>
+        <label class="check-item"><input type="checkbox"><span>TerraStride</span></label>
+        <label class="check-item"><input type="checkbox"><span>Google Earth / Maps</span></label>
+        <label class="check-item"><input type="checkbox"><span>PLSS / GLO maps only</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Overall technology proficiency</label>
+      <div class="scale-row">
+        <span class="scale-label">Basic</span>
+        <input type="range" min="1" max="5" value="3" oninput="document.getElementById('tech-val').textContent=this.value">
+        <span class="scale-label right">Expert</span>
+        <span class="scale-val" id="tech-val">3</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Additional tools not listed above</label>
+      <textarea placeholder="e.g., Pandell, custom county systems, etc."></textarea>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('profile-2')">← Back</button>
+      <span class="step-indicator">Step 3 of 5</span>
+      <button class="nav-btn next" onclick="goTo('profile-4')">Next →</button>
+    </div>
+  </div>
+
+  <!-- ===== PROFILE STEP 4 ===== -->
+  <div class="step" id="profile-4">
+    <div class="section-label">Section 4 of 5 — Work product &amp; rate</div>
+    <div class="field">
+      <label>Work products you can produce independently <span class="req">*</span></label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox"><span>Mineral ownership reports (MOR) — full runsheet, ownership summary, and notes</span></label>
+        <label class="check-item"><input type="checkbox"><span>Surface ownership reports (SOR)</span></label>
+        <label class="check-item"><input type="checkbox"><span>Mineral flowcharts / chain of title diagrams</span></label>
+        <label class="check-item"><input type="checkbox"><span>Affidavit of death and heirship — preparation and field interviews</span></label>
+        <label class="check-item"><input type="checkbox"><span>Landman statements (curative response to PTO requirements)</span></label>
+        <label class="check-item"><input type="checkbox"><span>Division order preparation and decimal interest calculation</span></label>
+        <label class="check-item"><input type="checkbox"><span>Right-of-way tabulations and easement summaries</span></label>
+        <label class="check-item"><input type="checkbox"><span>Oil and gas lease acquisition and negotiation</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Describe your process for handling a title curative issue</label>
+      <textarea rows="4" placeholder="Walk us through how you would approach identifying, documenting, and resolving a curative requirement flagged in a preliminary title opinion..."></textarea>
+    </div>
+    <div class="field">
+      <label>Preferred day rate <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:10px">Select the range that best fits your expectations for contract / temp placement work.</p>
+      <div class="day-rate-options">
+        <label class="rate-card" onclick="selectRate(this)">
+          <input type="radio" name="dayrate" value="300">
+          <div class="rate-val">$300/day or less</div><div class="rate-sub">Entry to mid-level</div>
+        </label>
+        <label class="rate-card" onclick="selectRate(this)">
+          <input type="radio" name="dayrate" value="400">
+          <div class="rate-val">$400/day or less</div><div class="rate-sub">Mid to senior level</div>
+        </label>
+        <label class="rate-card" onclick="selectRate(this)">
+          <input type="radio" name="dayrate" value="500">
+          <div class="rate-val">$500+/day</div><div class="rate-sub">Senior / specialist</div>
+        </label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Preferred work arrangement</label>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="workarr"><span>Remote only</span></label>
+        <label class="check-item"><input type="radio" name="workarr"><span>Field work only (courthouse, surface)</span></label>
+        <label class="check-item"><input type="radio" name="workarr"><span>Both remote and field</span></label>
+        <label class="check-item"><input type="radio" name="workarr"><span>No preference</span></label>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('profile-3')">← Back</button>
+      <span class="step-indicator">Step 4 of 5</span>
+      <button class="nav-btn next" onclick="goTo('profile-5')">Next →</button>
+    </div>
+  </div>
+
+  <!-- ===== PROFILE STEP 5 ===== -->
+  <div class="step" id="profile-5">
+    <div class="section-label">Section 5 of 5 — Background &amp; references</div>
+    <div class="field">
+      <label>Types of companies you have worked with</label>
+      <div class="check-group check-grid">
+        <label class="check-item"><input type="checkbox"><span>Independent E&amp;P operators</span></label>
+        <label class="check-item"><input type="checkbox"><span>Major integrated oil companies</span></label>
+        <label class="check-item"><input type="checkbox"><span>Land services / contract companies</span></label>
+        <label class="check-item"><input type="checkbox"><span>Law firms (oil &amp; gas)</span></label>
+        <label class="check-item"><input type="checkbox"><span>Mineral acquisition companies</span></label>
+        <label class="check-item"><input type="checkbox"><span>Pipeline / midstream companies</span></label>
+        <label class="check-item"><input type="checkbox"><span>Royalty trusts or funds</span></label>
+        <label class="check-item"><input type="checkbox"><span>Self-employed / independent</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Can you provide 2–3 professional references?</label>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="refs"><span>Yes — I will provide references if requested</span></label>
+        <label class="check-item"><input type="radio" name="refs"><span>Yes — references available immediately</span></label>
+        <label class="check-item"><input type="radio" name="refs"><span>Limited — can provide 1 reference</span></label>
+        <label class="check-item"><input type="radio" name="refs"><span>No — I prefer not to</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Have you had work product rejected or flagged for errors?</label>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="errors"><span>No</span></label>
+        <label class="check-item"><input type="radio" name="errors"><span>Yes — minor / clerical, resolved without issue</span></label>
+        <label class="check-item"><input type="radio" name="errors"><span>Yes — substantive issue, resolved</span></label>
+      </div>
+      <div style="margin-top:10px">
+        <textarea rows="2" placeholder="If yes, briefly describe how you handled it (optional)..."></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <label>Anything else we should know?</label>
+      <textarea rows="3" placeholder="Any specialties, recent projects, or context that would help us match you to the right placement..."></textarea>
+    </div>
+    <div class="field">
+      <label>How did you hear about us?</label>
+      <select>
+        <option value="">Select</option>
+        <option>LinkedIn post</option><option>Referral from colleague</option>
+        <option>Job board</option><option>Industry event</option><option>Other</option>
+      </select>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('profile-4')">← Back</button>
+      <span class="step-indicator">Step 5 of 5</span>
+      <button class="launch-btn" onclick="goTo('assess-intro')">Save &amp; Launch Assessment →</button>
+    </div>
+  </div>
+
+  <!-- ===== ASSESSMENT INTRO ===== -->
+  <div class="step" id="assess-intro">
+    <div class="section-label">Title Examination Assessment — Instructions</div>
+    <div class="callout">
+      <strong>Subject Lands:</strong> Section 27, Block 42, Public School Lands, Barbas County, Texas — 640 acres, more or less.<br>
+      Work through Documents 1–9 in order. For each document, answer the questions and complete the ownership snapshot table before advancing.
+    </div>
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">Governing assumptions</div>
+      <ol class="assume-list">
+        <li>The record presented is complete. There are no unrecorded instruments.</li>
+        <li>All instruments are valid, properly executed, acknowledged, delivered, and timely recorded.</li>
+        <li>Texas law governs. Intestate succession is determined under the Texas Estates Code in effect at the relevant time.</li>
+        <li>Where a deed recites "640 acres, more or less," treat the tract as exactly 640 net mineral acres unless otherwise stated.</li>
+        <li>All parties are of legal age and capacity.</li>
+        <li>Any interest acquired by a married person by gift, devise, or descent is separate property; all other interests acquired during marriage are presumed community property.</li>
+        <li>Some instruments may describe lands other than, or in addition to, the Subject Lands. Determine which instruments affect the Subject Lands and track each resulting tract separately.</li>
+        <li>Express all fractional interests as decimals carried to eight (8) places. Interests for each tract must total 1.00000000.</li>
+      </ol>
+    </div>
+    <div style="font-size:14px;font-weight:600;margin-bottom:8px">Document index</div>
+    <div class="doc-index-grid">
+      <div class="doc-index-card"><div class="d-num">1</div><div class="d-info"><div class="d-name">Patent — State of Texas</div><div class="d-date">January 1, 1993</div></div></div>
+      <div class="doc-index-card"><div class="d-num">2</div><div class="d-info"><div class="d-name">Mineral Deed (7/24 interest)</div><div class="d-date">February 1, 1995</div></div></div>
+      <div class="doc-index-card"><div class="d-num">3</div><div class="d-info"><div class="d-name">Mineral Deed with NPRI</div><div class="d-date">March 7, 2000</div></div></div>
+      <div class="doc-index-card"><div class="d-num">4</div><div class="d-info"><div class="d-name">Last Will and Testament</div><div class="d-date">April 5, 1995</div></div></div>
+      <div class="doc-index-card"><div class="d-num">5</div><div class="d-info"><div class="d-name">Warranty Deed with NPRI</div><div class="d-date">July 10, 2007</div></div></div>
+      <div class="doc-index-card"><div class="d-num">6</div><div class="d-info"><div class="d-name">Oil, Gas &amp; Mineral Lease #1</div><div class="d-date">April 30, 2011</div></div></div>
+      <div class="doc-index-card"><div class="d-num">7</div><div class="d-info"><div class="d-name">Affidavit of Heirship</div><div class="d-date">November 3, 2014</div></div></div>
+      <div class="doc-index-card"><div class="d-num">8</div><div class="d-info"><div class="d-name">Paid-Up Oil, Gas &amp; Mineral Lease #2</div><div class="d-date">August 1, 2018</div></div></div>
+      <div class="doc-index-card"><div class="d-num">9</div><div class="d-info"><div class="d-name">Assignment of Oil &amp; Gas Lease</div><div class="d-date">December 1, 2022</div></div></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('profile-5')">← Back</button>
+      <span class="step-indicator">Assessment — 9 documents</span>
+      <button class="nav-btn next" onclick="goTo('doc-1')">Begin Assessment →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 1 — PATENT ===== -->
+  <div class="step" id="doc-1">
+    <div class="doc-pip-row" id="pips-1"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 1 of 9</div>
+        <div class="doc-title">Patent — State of Texas</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; January 1, 1993</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 1 - Patent.docx" target="_blank">
+        ↗ View Document
+      </a>
+    </div>
+    <div class="example-callout"><strong>Example — completed for you.</strong> Document 1 is worked through below as a model. Review it carefully before proceeding to Document 2.</div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">What type of instrument is this?</div>
+      <div class="q-answered">Patent</div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">What interest is conveyed, reserved, or established?</div>
+      <div class="q-answered">All right, title, and interest in and to the Subject Lands are conveyed from the State of Texas to James R. Caldwell. No reservations.</div>
+    </div>
+
+    <div class="snapshot-wrap">
+      <div class="snapshot-label">Ownership snapshot after Document 1</div>
+      <div class="snapshot-sub">Decimal interests for each tract must total 1.00000000.</div>
+      <div class="tbl-scroll">
+        <table class="snap">
+          <thead><tr>
+            <th>Owner</th><th>Tract / Legal Description</th>
+            <th>Executive Rights</th><th>Decimal Interest</th>
+            <th>Gross Acres</th><th>Net Acres</th><th></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="prefill"><input value="James R. Caldwell" readonly></td>
+              <td class="prefill"><input value="Section 27, Block 42, PSL" readonly></td>
+              <td class="prefill"><input value="1.00000000" readonly></td>
+              <td class="prefill"><input value="1.00000000" readonly></td>
+              <td class="prefill"><input value="640.0000" readonly></td>
+              <td class="prefill"><input value="640.0000" readonly></td>
+              <td class="del-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('assess-intro')">← Back</button>
+      <span class="step-indicator">Document 1 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-2')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 2 — MINERAL DEED (7/24) ===== -->
+  <div class="step" id="doc-2">
+    <div class="doc-pip-row" id="pips-2"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 2 of 9</div>
+        <div class="doc-title">Mineral Deed</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; February 1, 1995</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 2 - Mineral Deed (7-24).docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question (a)</div>
+      <div class="q-text">What type of instrument is this?</div>
+      <input type="text" placeholder="e.g., Mineral Deed, General Warranty Deed, Patent…" style="width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1px solid #ccc;border-radius:8px;outline:none">
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question (b)</div>
+      <div class="q-text">What interest is being conveyed, reserved, or established? Identify the grantor(s), grantee(s), and the precise fractional interest.</div>
+      <textarea rows="3" placeholder="Describe the interest conveyed and any reservations…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question (c)</div>
+      <div class="q-text">Will the grantee receive this interest as <strong>Community Property</strong> or <strong>Separate Property</strong>? Briefly explain.</div>
+      <div class="radio-row" style="margin-bottom:10px">
+        <span class="radio-chip"><input type="radio" name="d2-prop" id="d2-cp"><label for="d2-cp">Community Property</label></span>
+        <span class="radio-chip"><input type="radio" name="d2-prop" id="d2-sp"><label for="d2-sp">Separate Property</label></span>
+      </div>
+      <textarea rows="2" placeholder="Briefly explain your answer…"></textarea>
+    </div>
+
+    <div class="snapshot-wrap">
+      <div class="snapshot-label">Ownership snapshot after Document 2</div>
+      <div class="snapshot-sub">Show all owners and their interests after this instrument. Decimals must total 1.00000000 per tract.</div>
+      <div class="tbl-scroll">
+        <table class="snap" id="snap-2">
+          <thead><tr><th>Owner</th><th>Tract / Legal Description</th><th>Executive Rights</th><th>Decimal Interest</th><th>Gross Acres</th><th>Net Acres</th><th></th></tr></thead>
+          <tbody id="tbody-2"></tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addRow('tbody-2')">+ Add row</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-1')">← Back</button>
+      <span class="step-indicator">Document 2 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-3')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 3 — MINERAL DEED WITH NPRI ===== -->
+  <div class="step" id="doc-3">
+    <div class="doc-pip-row" id="pips-3"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 3 of 9</div>
+        <div class="doc-title">Mineral Deed with Reserved NPRI</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; March 7, 2000</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 3 - Mineral Deed with NPRI.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">What type of instrument is this?</div>
+      <input type="text" placeholder="Instrument type…" style="width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1px solid #ccc;border-radius:8px;outline:none">
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">What interest is being conveyed, reserved, or established? Identify all grantor(s), grantee(s), and the interests conveyed and reserved.</div>
+      <textarea rows="4" placeholder="Describe the conveyance and any reservations, including the NPRI if applicable…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">If an NPRI is reserved — is it <strong>fixed</strong> or <strong>floating</strong>?</div>
+      <div class="radio-row">
+        <span class="radio-chip"><input type="radio" name="d3-npri-type" id="d3-fixed"><label for="d3-fixed">Fixed</label></span>
+        <span class="radio-chip"><input type="radio" name="d3-npri-type" id="d3-float"><label for="d3-float">Floating</label></span>
+        <span class="radio-chip"><input type="radio" name="d3-npri-type" id="d3-na1"><label for="d3-na1">N/A — no NPRI</label></span>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">Does the NPRI run with the land, or is it limited to an existing lease?</div>
+      <div class="radio-row">
+        <span class="radio-chip"><input type="radio" name="d3-npri-run" id="d3-land"><label for="d3-land">Runs with the land</label></span>
+        <span class="radio-chip"><input type="radio" name="d3-npri-run" id="d3-lease"><label for="d3-lease">Limited to existing lease</label></span>
+        <span class="radio-chip"><input type="radio" name="d3-npri-run" id="d3-na2"><label for="d3-na2">N/A</label></span>
+      </div>
+    </div>
+
+    <div class="snapshot-wrap">
+      <div class="snapshot-label">Ownership snapshot after Document 3</div>
+      <div class="snapshot-sub">Include all mineral fee owners and all NPRI/royalty owners. Decimals must total 1.00000000 per tract.</div>
+      <div class="tbl-scroll">
+        <table class="snap"><thead><tr><th>Owner</th><th>Tract / Legal Description</th><th>Executive Rights</th><th>Decimal Interest</th><th>Gross Acres</th><th>Net Acres</th><th></th></tr></thead>
+        <tbody id="tbody-3"></tbody></table>
+      </div>
+      <button class="add-row-btn" onclick="addRow('tbody-3')">+ Add row</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-2')">← Back</button>
+      <span class="step-indicator">Document 3 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-4')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 4 — LAST WILL AND TESTAMENT ===== -->
+  <div class="step" id="doc-4">
+    <div class="doc-pip-row" id="pips-4"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 4 of 9</div>
+        <div class="doc-title">Last Will and Testament of William Hargrove</div>
+        <div class="doc-meta">Executed April 5, 1995 &nbsp;·&nbsp; Decedent died November 22, 2005</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 4 - Last Will and Testament.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">What type of instrument is this?</div>
+      <input type="text" placeholder="Instrument type…" style="width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1px solid #ccc;border-radius:8px;outline:none">
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">The decedent died on November 22, 2005. What is the effective date of this Last Will and Testament for title purposes?</div>
+      <input type="text" placeholder="Enter date…" style="width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1px solid #ccc;border-radius:8px;outline:none">
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">Who is named as Executor of the estate? Who is named as alternate or successor Executor?</div>
+      <textarea rows="2" placeholder="Name(s) and role(s)…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">The decedent is survived by his wife and two children. Pursuant to the Will, who is entitled to receive the decedent's mineral interest in the Subject Lands, and in what shares?</div>
+      <textarea rows="3" placeholder="Identify beneficiaries and their respective shares…"></textarea>
+    </div>
+
+    <div class="snapshot-wrap">
+      <div class="snapshot-label">Ownership snapshot after Document 4</div>
+      <div class="snapshot-sub">Reflect title after the Will is admitted to probate and the decedent's interest passes to the named beneficiaries.</div>
+      <div class="tbl-scroll">
+        <table class="snap"><thead><tr><th>Owner</th><th>Tract / Legal Description</th><th>Executive Rights</th><th>Decimal Interest</th><th>Gross Acres</th><th>Net Acres</th><th></th></tr></thead>
+        <tbody id="tbody-4"></tbody></table>
+      </div>
+      <button class="add-row-btn" onclick="addRow('tbody-4')">+ Add row</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-3')">← Back</button>
+      <span class="step-indicator">Document 4 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-5')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 5 — WARRANTY DEED WITH NPRI ===== -->
+  <div class="step" id="doc-5">
+    <div class="doc-pip-row" id="pips-5"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 5 of 9</div>
+        <div class="doc-title">Warranty Deed with Reserved NPRI</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; July 10, 2007</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 5 - Warranty Deed.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">What type of instrument is this?</div>
+      <input type="text" placeholder="Instrument type…" style="width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1px solid #ccc;border-radius:8px;outline:none">
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">What interest is being conveyed, reserved, or established? Identify all parties and the precise interests involved, including any NPRI.</div>
+      <textarea rows="4" placeholder="Describe the conveyance and the reserved royalty interest in detail…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">Is the reserved NPRI <strong>fixed</strong> or <strong>floating</strong>?</div>
+      <div class="radio-row">
+        <span class="radio-chip"><input type="radio" name="d5-npri-type" id="d5-fixed"><label for="d5-fixed">Fixed</label></span>
+        <span class="radio-chip"><input type="radio" name="d5-npri-type" id="d5-float"><label for="d5-float">Floating</label></span>
+        <span class="radio-chip"><input type="radio" name="d5-npri-type" id="d5-na"><label for="d5-na">N/A</label></span>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">Does the NPRI run with the land, or is it limited to an existing lease?</div>
+      <div class="radio-row">
+        <span class="radio-chip"><input type="radio" name="d5-npri-run" id="d5-land"><label for="d5-land">Runs with the land</label></span>
+        <span class="radio-chip"><input type="radio" name="d5-npri-run" id="d5-lease"><label for="d5-lease">Limited to existing lease</label></span>
+        <span class="radio-chip"><input type="radio" name="d5-npri-run" id="d5-na2"><label for="d5-na2">N/A</label></span>
+      </div>
+    </div>
+
+    <div class="snapshot-wrap">
+      <div class="snapshot-label">Ownership snapshot after Document 5</div>
+      <div class="snapshot-sub">Reflect all mineral fee, executive right, and royalty/NPRI owners. Decimals must total 1.00000000 per tract.</div>
+      <div class="tbl-scroll">
+        <table class="snap"><thead><tr><th>Owner</th><th>Tract / Legal Description</th><th>Executive Rights</th><th>Decimal Interest</th><th>Gross Acres</th><th>Net Acres</th><th></th></tr></thead>
+        <tbody id="tbody-5"></tbody></table>
+      </div>
+      <button class="add-row-btn" onclick="addRow('tbody-5')">+ Add row</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-4')">← Back</button>
+      <span class="step-indicator">Document 5 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-6')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 6 — OGL #1 ===== -->
+  <div class="step" id="doc-6">
+    <div class="doc-pip-row" id="pips-6"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 6 of 9</div>
+        <div class="doc-title">Oil, Gas &amp; Mineral Lease #1 — Hargrove 42-27</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; April 30, 2011 &nbsp;·&nbsp; Lessee: Lone Star E&amp;P, LLC</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 6 - Oil Gas and Mineral Lease.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">Based on your title examination to this point, identify all parties who should properly be named as <strong>lessors</strong> under this lease.</div>
+      <textarea rows="3" placeholder="List all parties with leasing authority and their respective interests…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">Identify the lease royalty rate. Then calculate each owner's and interest holder's <strong>proportionate share</strong> of the lease royalty. (Each party's royalty should reflect their individual share, not simply restate the lease royalty.)</div>
+      <div class="tbl-scroll" style="margin-top:10px">
+        <table class="snap"><thead><tr><th style="min-width:220px">Owner / Interest Holder</th><th style="min-width:180px">Royalty Interest (decimal)</th><th></th></tr></thead>
+        <tbody id="tbody-6r"></tbody></table>
+      </div>
+      <button class="add-row-btn" onclick="addRowRoyalty('tbody-6r')">+ Add row</button>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">What is the primary term of the lease?</div>
+      <input type="text" placeholder="e.g., 3 years from April 30, 2011" style="width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1px solid #ccc;border-radius:8px;outline:none">
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">Based on the lease terms, identify and summarize any <strong>retained acreage</strong> and/or <strong>depth limitations</strong> applicable after expiration of the primary term.</div>
+      <textarea rows="3" placeholder="Summarize retained acreage clause and depth limitation language…"></textarea>
+    </div>
+
+    <div class="callout" style="margin-top:1.5rem">
+      <strong>Well Information — Hargrove 42-27 1H</strong><br>
+      Type: Horizontal &nbsp;·&nbsp; Location: W/2 W/2 of Section 27 &nbsp;·&nbsp; Spud: July 14, 2012 &nbsp;·&nbsp; Completion: September 25, 2012<br>
+      Status: Producing &nbsp;·&nbsp; Formation: Wolfcamp &nbsp;·&nbsp; TVD: 11,003 ft &nbsp;·&nbsp; Proration Unit: 160 acres (W/2 W/2, Section 27)
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 5</div>
+      <div class="q-text">Based on the lease terms, the well information above, and the retained acreage clause — identify the <strong>lands and depths held by production</strong> following expiration of the primary term.</div>
+      <textarea rows="3" placeholder="Identify the specific acreage and depth interval held by the Hargrove 42-27 1H…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 6</div>
+      <div class="q-text">Identify the <strong>lands and depths that appear to have terminated or been released</strong> following expiration of the primary term.</div>
+      <textarea rows="3" placeholder="Identify acreage and/or depths not held by the producing well…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 7</div>
+      <div class="q-text">Briefly explain the basis for your conclusions in Questions 5 and 6.</div>
+      <textarea rows="3" placeholder="Cite specific lease provisions and explain your reasoning…"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-5')">← Back</button>
+      <span class="step-indicator">Document 6 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-7')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 7 — AFFIDAVIT OF HEIRSHIP ===== -->
+  <div class="step" id="doc-7">
+    <div class="doc-pip-row" id="pips-7"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 7 of 9</div>
+        <div class="doc-title">Affidavit of Heirship — Raymond Porter</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; Decedent died November 3, 2014</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 7 - Affidavit of Heirship.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">At the time of death, did the decedent's interest in the Subject Lands constitute <strong>separate property</strong> or <strong>community property</strong>? Briefly explain your answer.</div>
+      <div class="radio-row" style="margin-bottom:10px">
+        <span class="radio-chip"><input type="radio" name="d7-prop" id="d7-sep"><label for="d7-sep">Separate Property</label></span>
+        <span class="radio-chip"><input type="radio" name="d7-prop" id="d7-com"><label for="d7-com">Community Property</label></span>
+      </div>
+      <textarea rows="2" placeholder="Explain the basis for your answer under Texas law…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">Based on the laws of intestate succession, how should the decedent's interest pass among the surviving spouse and children? Complete the table below.</div>
+      <div class="tbl-scroll" style="margin-top:10px">
+        <table class="snap">
+          <thead><tr><th style="min-width:220px">Heir</th><th style="min-width:220px">Interest Received</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><input value="Margaret Lynn Porter (Surviving Spouse)" readonly style="color:#555;font-style:italic"></td>
+              <td><input placeholder="Fractional share…"></td>
+              <td class="del-cell"></td>
+            </tr>
+            <tr>
+              <td><input value="Kevin Scott Porter (Child)" readonly style="color:#555;font-style:italic"></td>
+              <td><input placeholder="Fractional share…"></td>
+              <td class="del-cell"></td>
+            </tr>
+            <tr>
+              <td><input value="Brittany Porter Simmons (Child)" readonly style="color:#555;font-style:italic"></td>
+              <td><input placeholder="Fractional share…"></td>
+              <td class="del-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="snapshot-wrap">
+      <div class="snapshot-label">Ownership snapshot after Document 7</div>
+      <div class="snapshot-sub">Reflect all mineral fee and royalty/NPRI owners after the decedent's interest passes by intestate succession.</div>
+      <div class="tbl-scroll">
+        <table class="snap"><thead><tr><th>Owner</th><th>Tract / Legal Description</th><th>Executive Rights</th><th>Decimal Interest</th><th>Gross Acres</th><th>Net Acres</th><th></th></tr></thead>
+        <tbody id="tbody-7"></tbody></table>
+      </div>
+      <button class="add-row-btn" onclick="addRow('tbody-7')">+ Add row</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-6')">← Back</button>
+      <span class="step-indicator">Document 7 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-8')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 8 — OGL #2 ===== -->
+  <div class="step" id="doc-8">
+    <div class="doc-pip-row" id="pips-8"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 8 of 9</div>
+        <div class="doc-title">Paid-Up Oil, Gas &amp; Mineral Lease #2 — Porter Estate</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; August 1, 2018 &nbsp;·&nbsp; Lessee: Permian Basin Resources, LLC</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 8 - Paid Up Oil Gas and Mineral Lease.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="callout">
+      <strong>Context:</strong> Assume Oil &amp; Gas Lease #1 (Document 6) remains in full force and effect as to the lands and depths held by the Hargrove 42-27 1H Well.
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">Identify the <strong>lands and depths available for leasing</strong>, given that Lease #1 (Document 6) is held by production on the W/2 W/2 of Section 27 down to 100 feet below the Wolfcamp formation.</div>
+      <textarea rows="3" placeholder="Describe which acreage and/or depths are not held by Lease #1 and are therefore available…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">Prepare the <strong>legal description</strong> for the lands and depths to be covered by this lease (i.e., the available acreage).</div>
+      <textarea rows="3" placeholder="Legal description: Section/Block/Survey, acreage, depth limitation…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">Based on your title examination, identify the parties who should properly <strong>execute</strong> this lease as lessors.</div>
+      <textarea rows="2" placeholder="List all parties with leasing authority over the available acreage…"></textarea>
+    </div>
+
+    <div class="callout">
+      <strong>Well Information — Porter Estate 1</strong><br>
+      Type: Vertical &nbsp;·&nbsp; Location: NE/4 NE/4 of Section 27 &nbsp;·&nbsp; Spud: May 10, 2021 &nbsp;·&nbsp; Completion: June 16, 2021<br>
+      Status: Producing &nbsp;·&nbsp; Formation: San Andres &nbsp;·&nbsp; TVD: 4,021 ft &nbsp;·&nbsp; Proration Unit: 40 acres (NE/4 NE/4)
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">Based on the terms of Lease #2 and the well information above — identify the <strong>lands and depths held by production</strong> after expiration of the primary term.</div>
+      <textarea rows="3" placeholder="Identify acreage and depth interval held by the Porter Estate 1…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 5</div>
+      <div class="q-text">Identify the <strong>lands and depths that have terminated or been released</strong> after expiration of the primary term.</div>
+      <textarea rows="3" placeholder="Identify acreage and/or depths not held by the producing well under Lease #2…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 6</div>
+      <div class="q-text">Briefly explain the basis for your conclusions in Questions 4 and 5.</div>
+      <textarea rows="3" placeholder="Cite specific lease provisions…"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-7')">← Back</button>
+      <span class="step-indicator">Document 8 of 9</span>
+      <button class="nav-btn next" onclick="goTo('doc-9')">Next Document →</button>
+    </div>
+  </div>
+
+  <!-- ===== DOC 9 — ASSIGNMENT ===== -->
+  <div class="step" id="doc-9">
+    <div class="doc-pip-row" id="pips-9"></div>
+    <div class="doc-ref-box">
+      <div class="doc-ref-info">
+        <div class="doc-num">Document 9 of 9</div>
+        <div class="doc-title">Assignment of Oil &amp; Gas Lease</div>
+        <div class="doc-meta">Barbas County, Texas &nbsp;·&nbsp; Effective December 1, 2022 &nbsp;·&nbsp; Lone Star E&amp;P, LLC → Sunrise Operating Company</div>
+      </div>
+      <a class="view-doc-btn" href="documents/Document 9 - Assignment of Oil and Gas Lease.docx" target="_blank">↗ View Document</a>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">Based on the terms of the Assignment, identify the <strong>Existing Lease Burdens</strong> applicable to Oil &amp; Gas Lease #1 (Document 6) as of the effective date.</div>
+      <textarea rows="2" placeholder="List all burdens of record against the lease (royalty, NPRI, etc.) and their decimal values…"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">Calculate the <strong>overriding royalty interest (ORRI)</strong> reserved by the Assignor pursuant to the Assignment. Show your work.</div>
+      <div class="row-2" style="margin-top:8px;gap:0.75rem">
+        <div class="field" style="margin-bottom:0"><label style="font-size:13px;color:#666">Lease royalty (existing burden)</label><input type="text" placeholder="e.g., 0.18750000"></div>
+        <div class="field" style="margin-bottom:0"><label style="font-size:13px;color:#666">NPRI burden (if any)</label><input type="text" placeholder="e.g., 0.00000000"></div>
+      </div>
+      <div class="row-2" style="margin-top:8px;gap:0.75rem">
+        <div class="field" style="margin-bottom:0"><label style="font-size:13px;color:#666">Total existing burdens</label><input type="text" placeholder="Sum of above…"></div>
+        <div class="field" style="margin-bottom:0"><label style="font-size:13px;color:#666">Reserved ORRI (25% minus burdens)</label><input type="text" placeholder="Calculated ORRI…"></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">Following the Assignment, complete the <strong>leasehold ownership table</strong> for the Subject Lands.</div>
+      <div class="tbl-scroll" style="margin-top:10px">
+        <table class="snap">
+          <thead><tr><th style="min-width:200px">Owner / Party</th><th>Working Interest</th><th>NRI (Net Revenue Interest)</th><th>ORRI</th><th></th></tr></thead>
+          <tbody id="tbody-9lh">
+            <tr>
+              <td><input placeholder="Party name…"></td>
+              <td><input placeholder="e.g., 1.00000000"></td>
+              <td><input placeholder="e.g., 0.75000000"></td>
+              <td><input placeholder="e.g., 0.00000000"></td>
+              <td class="del-cell"><button class="del-row-btn" onclick="delRow(this)">×</button></td>
+            </tr>
+            <tr>
+              <td><input placeholder="Party name…"></td>
+              <td><input placeholder="e.g., 0.00000000"></td>
+              <td><input placeholder="e.g., 0.00000000"></td>
+              <td><input placeholder="e.g., 0.06250000"></td>
+              <td class="del-cell"><button class="del-row-btn" onclick="delRow(this)">×</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addRowLeasehold('tbody-9lh')">+ Add row</button>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goTo('doc-8')">← Back</button>
+      <span class="step-indicator">Document 9 of 9</span>
+      <button class="launch-btn" onclick="goTo('complete')">Submit Assessment →</button>
+    </div>
+  </div>
+
+  <!-- ===== COMPLETE ===== -->
+  <div class="step" id="complete">
+    <div class="success-state">
+      <div class="success-icon">✓</div>
+      <h2>Assessment submitted</h2>
+      <p>Your candidate profile and title examination have been received. We'll review your work and be in touch regarding placement opportunities.</p>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+var STEPS = [
+  'profile-1','profile-2','profile-3','profile-4','profile-5',
+  'assess-intro',
+  'doc-1','doc-2','doc-3','doc-4','doc-5','doc-6','doc-7','doc-8','doc-9',
+  'complete'
+];
+var current = 'profile-1';
+
+function goTo(id) {
+  document.getElementById(current).classList.remove('active');
+  current = id;
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+
+  // Progress bar
+  var idx = STEPS.indexOf(id);
+  var pct = idx < 0 ? 100 : Math.round((idx / (STEPS.length - 1)) * 100);
+  document.getElementById('prog').style.width = pct + '%';
+
+  // Header labels
+  var isAssess = id === 'assess-intro' || id.startsWith('doc-') || id === 'complete';
+  document.getElementById('main-title').textContent = isAssess
+    ? 'Title Examination Assessment'
+    : 'Landman candidate profile';
+  document.getElementById('main-sub').textContent = isAssess
+    ? 'Section 27, Block 42, PSL, Barbas County, Texas — work through all 9 documents in order.'
+    : 'Complete all sections to be considered for placement opportunities.';
+  document.getElementById('phase-pill').textContent = isAssess ? 'Assessment' : 'Profile';
+
+  // Render pips for doc steps
+  var m = id.match(/^doc-(\d+)$/);
+  if (m) renderPips(parseInt(m[1]));
+}
+
+function renderPips(active) {
+  for (var i = 1; i <= 9; i++) {
+    var el = document.getElementById('pips-' + i);
+    if (!el) continue;
+    el.innerHTML = '';
+    for (var j = 1; j <= 9; j++) {
+      var pip = document.createElement('div');
+      pip.className = 'doc-pip' + (j < active ? ' done' : (j === active ? ' active' : ''));
+      el.appendChild(pip);
+    }
+    var lbl = document.createElement('span');
+    lbl.className = 'doc-pip-label';
+    lbl.textContent = 'Document ' + active + ' of 9';
+    el.appendChild(lbl);
+  }
+}
+
+function makeRow(cols) {
+  var tr = document.createElement('tr');
+  cols.forEach(function(ph) {
+    var td = document.createElement('td');
+    var inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = ph;
+    td.appendChild(inp);
+    tr.appendChild(td);
+  });
+  var td2 = document.createElement('td');
+  td2.className = 'del-cell';
+  var btn = document.createElement('button');
+  btn.className = 'del-row-btn';
+  btn.textContent = '×';
+  btn.onclick = function() { delRow(btn); };
+  td2.appendChild(btn);
+  tr.appendChild(td2);
+  return tr;
+}
+
+function addRow(tbodyId) {
+  var tb = document.getElementById(tbodyId);
+  tb.appendChild(makeRow(['Owner name…','Section 27, Block 42, PSL','0.00000000','0.00000000','640.0000','640.0000']));
+}
+
+function addRowRoyalty(tbodyId) {
+  var tb = document.getElementById(tbodyId);
+  tb.appendChild(makeRow(['Owner / Interest Holder…','0.00000000']));
+}
+
+function addRowLeasehold(tbodyId) {
+  var tb = document.getElementById(tbodyId);
+  tb.appendChild(makeRow(['Party name…','0.00000000','0.00000000','0.00000000']));
+}
+
+function delRow(btn) {
+  var row = btn.closest('tr');
+  if (row) row.parentNode.removeChild(row);
+}
+
+function selectRate(el) {
+  document.querySelectorAll('.rate-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+// Pre-populate snapshot tables with empty rows
+['tbody-2','tbody-3','tbody-4','tbody-5','tbody-7'].forEach(function(id) {
+  var tb = document.getElementById(id);
+  if (tb) { addRow(id); addRow(id); addRow(id); }
+});
+['tbody-6r'].forEach(function(id) {
+  var tb = document.getElementById(id);
+  if (tb) { addRowRoyalty(id); addRowRoyalty(id); addRowRoyalty(id); }
+});
+</script>
+</body>
+</html>
