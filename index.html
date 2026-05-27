@@ -12,6 +12,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .q-header-text h1 { font-size: 24px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
 .q-header-text p { font-size: 14px; color: #666; line-height: 1.6; }
 .phase-pill { flex-shrink: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; background: #E1F5EE; color: #0F6E56; padding: 4px 12px; border-radius: 20px; margin-top: 4px; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.timer-badge { display: none; align-items: center; gap: 6px; background: #1a1a1a; color: #fff; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; padding: 5px 12px; border-radius: 20px; letter-spacing: 0.03em; }
+.timer-badge.visible { display: flex; }
+.timer-badge.paused { background: #888; }
+.timer-dot { width: 7px; height: 7px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; animation: pulse 1.2s ease-in-out infinite; }
+.timer-badge.paused .timer-dot { background: #ccc; animation: none; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 .progress-bar { height: 4px; background: #eee; border-radius: 2px; margin-bottom: 2rem; }
 .progress-fill { height: 100%; background: #1D9E75; border-radius: 2px; width: 0%; transition: width 0.3s; }
 .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 1rem; padding-bottom: 6px; border-bottom: 1px solid #e0ddd5; }
@@ -127,7 +134,13 @@ table.snap td.del-cell { width: 32px; text-align: center; }
       <h1 id="main-title">Landman candidate profile</h1>
       <p id="main-sub">Complete all sections to be considered for placement opportunities.</p>
     </div>
-    <div class="phase-pill" id="phase-pill">Profile</div>
+    <div class="header-right">
+      <div class="phase-pill" id="phase-pill">Profile</div>
+      <div class="timer-badge" id="timer-badge">
+        <div class="timer-dot" id="timer-dot"></div>
+        <span id="timer-display">00:00:00</span>
+      </div>
+    </div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
@@ -978,6 +991,102 @@ table.snap td.del-cell { width: 32px; text-align: center; }
 </div><!-- /page-wrap -->
 
 <script>
+/* ── ACTIVE-TIME TIMER ─────────────────────────────────────────────────────
+   Tracks only the time a candidate is actively working in the assessment tab.
+   State persisted in localStorage so it survives refreshes and tab closes.
+   Keys:
+     landman_elapsed  – total seconds accumulated in previous sessions
+     landman_t_start  – Date.now() when the current active window started
+                        (null / absent = timer is paused)
+────────────────────────────────────────────────────────────────────────── */
+var TIMER_ACTIVE = false;   // true once the assessment intro is reached
+var _timerInterval = null;
+
+var Timer = {
+  getElapsed: function() { return parseInt(localStorage.getItem('landman_elapsed') || '0'); },
+  setElapsed: function(s) { localStorage.setItem('landman_elapsed', s); },
+  getStart:   function() { var v = localStorage.getItem('landman_t_start'); return v ? parseInt(v) : null; },
+  setStart:   function(t) { localStorage.setItem('landman_t_start', t); },
+  clearStart: function() { localStorage.removeItem('landman_t_start'); },
+  current: function() {
+    var s = Timer.getStart();
+    return Timer.getElapsed() + (s !== null ? Math.floor((Date.now() - s) / 1000) : 0);
+  }
+};
+
+function timerStart() {
+  if (!TIMER_ACTIVE) return;
+  if (Timer.getStart() === null) Timer.setStart(Date.now());
+  var badge = document.getElementById('timer-badge');
+  badge.classList.remove('paused');
+}
+
+function timerPause() {
+  var s = Timer.getStart();
+  if (s !== null) {
+    Timer.setElapsed(Timer.getElapsed() + Math.floor((Date.now() - s) / 1000));
+    Timer.clearStart();
+  }
+  var badge = document.getElementById('timer-badge');
+  badge.classList.add('paused');
+}
+
+function timerActivate() {
+  // Called when candidate enters assessment for the first time (or returns)
+  TIMER_ACTIVE = true;
+  document.getElementById('timer-badge').classList.add('visible');
+  timerStart();
+  if (!_timerInterval) {
+    _timerInterval = setInterval(timerTick, 1000);
+  }
+}
+
+function timerStop() {
+  // Called on final submission
+  timerPause();
+  TIMER_ACTIVE = false;
+  clearInterval(_timerInterval);
+  _timerInterval = null;
+}
+
+function timerTick() {
+  var total = Timer.current();
+  var h = Math.floor(total / 3600);
+  var m = Math.floor((total % 3600) / 60);
+  var s = total % 60;
+  document.getElementById('timer-display').textContent =
+    (h < 10 ? '0' : '') + h + ':' +
+    (m < 10 ? '0' : '') + m + ':' +
+    (s < 10 ? '0' : '') + s;
+}
+
+// Pause when tab goes hidden, resume when it comes back
+document.addEventListener('visibilitychange', function() {
+  if (!TIMER_ACTIVE) return;
+  if (document.hidden) { timerPause(); } else { timerStart(); }
+});
+
+// Pause when window loses focus, resume on focus
+window.addEventListener('blur',  function() { if (TIMER_ACTIVE) timerPause(); });
+window.addEventListener('focus', function() { if (TIMER_ACTIVE) timerStart(); });
+
+// Pause on close/navigate away so elapsed is saved
+window.addEventListener('beforeunload', function() { if (TIMER_ACTIVE) timerPause(); });
+
+// Restore running state if page reloaded mid-assessment
+(function() {
+  if (Timer.getElapsed() > 0 || Timer.getStart() !== null) {
+    // They had started the assessment — re-activate display but keep paused
+    // until they navigate to an assessment step (goTo will handle it)
+    timerPause(); // flush any dangling start time
+    TIMER_ACTIVE = true;
+    document.getElementById('timer-badge').classList.add('visible');
+    document.getElementById('timer-badge').classList.add('paused');
+    timerTick();
+    _timerInterval = setInterval(timerTick, 1000);
+  }
+})();
+
 var STEPS = [
   'profile-1','profile-2','profile-3','profile-4','profile-5',
   'assess-intro',
@@ -997,8 +1106,13 @@ function goTo(id) {
   var pct = idx < 0 ? 100 : Math.round((idx / (STEPS.length - 1)) * 100);
   document.getElementById('prog').style.width = pct + '%';
 
-  // Header labels
+  // Timer — activate when entering assessment, pause on complete
   var isAssess = id === 'assess-intro' || id.startsWith('doc-') || id === 'complete';
+  if (isAssess && id !== 'complete' && !TIMER_ACTIVE) { timerActivate(); }
+  if (isAssess && id !== 'complete' && TIMER_ACTIVE)  { timerStart(); }
+  if (id === 'complete') { timerStop(); }
+
+  // Header labels
   document.getElementById('main-title').textContent = isAssess
     ? 'Title Examination Assessment'
     : 'Landman candidate profile';
